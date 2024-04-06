@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Crosshair by Traqu:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Crosshair_by_Traqu_jar</output-path>
+    <root id="archive" name="Crosshair by Traqu.jar">
+      <element id="module-output" name="Crosshair by Traqu" />
+    </root>
+  </artifact>
+</component>
