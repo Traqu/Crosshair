@@ -22,7 +22,7 @@ public class ApplicationInterface extends JFrame {
     protected JButton resetButton;
 
     public ApplicationInterface() throws HeadlessException {
-        super("Crosshair by Traqu - v1.0.0.");
+        super(APPLICATION_TITLE);
 
         setLookAndFeel();
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("graphics/reticle.png")));

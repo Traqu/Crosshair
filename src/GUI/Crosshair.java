@@ -58,9 +58,6 @@ public class Crosshair extends JWindow {
         crosshair.setBackground(crosshairColor);
         crosshair.setPreferredSize(new Dimension(crosshairSizesMap.get(getCrosshairSizeType())));
         setLocation((int) (SCREEN_WIDTH / 2 - getCrosshairSizesMap().get(crosshairSizeType).getWidth() / 2), (int) (SCREEN_HEIGHT / 2 - getCrosshairSizesMap().get(crosshairSizeType).getWidth() / 2));
-        System.out.println(getLocation());
-        System.out.println(getCrosshairSizesMap().get(crosshairSizeType).getWidth());
-        System.out.println(crosshair.getPreferredSize());
         add(crosshair);
         packAndDisplay();
         hideCursor();
