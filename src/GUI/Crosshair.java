@@ -1,37 +1,91 @@
 package GUI;
 
+import Configuration.CrosshairConfig;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+import java.util.List;
 
 import static Constants.Finals.*;
 
 public class Crosshair extends JWindow {
+    private static List<Crosshair> crosshairList = new ArrayList<>();
     private static Dimension crosshairDimension = new Dimension(4, 4);
-    private static int crosshairSize = (int) (crosshairDimension.getWidth() / 2);
+    private static int crosshairSizeType;
+    private static Map<Integer, Dimension> crosshairSizesMap = new Hashtable<>();
+
+    static {
+        crosshairSizesMap.put(1, new Dimension(2,2));
+        crosshairSizesMap.put(2, new Dimension(3,3));
+        crosshairSizesMap.put(3, new Dimension(4,4));
+        crosshairSizesMap.put(4, new Dimension(5,5));
+        crosshairSizesMap.put(5, new Dimension(6,6));
+    }
     private static Color crosshairColor = Color.RED;
     private static Crosshair instance;
-    private static int x = SCREEN_WIDTH / 2 - crosshairSize / 2;
-    private static int y = SCREEN_HEIGHT / 2 - crosshairSize / 2;
+    private static int x = SCREEN_WIDTH / 2 - crosshairSizeType / 2;
+    private static int y = SCREEN_HEIGHT / 2 - crosshairSizeType / 2;
 
+    private static boolean hasLoadedSize = false;
+    public static boolean isInitialLoad = true;
 
     public Crosshair() {
+//        setOpacity(0); //TODO pozwoli na grafics i customowy ksztalt celownika?
         instance = this;
+        crosshairList.add(this);
+
+        if(!hasLoadedSize){
+            try (InputStream input = new FileInputStream(CONFIGURATION_FILE)) {
+                Properties properties = new Properties();
+                properties.load(input);
+                crosshairSizeType = Integer.parseInt(properties.getProperty("Size"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            hasLoadedSize = true;
+        }
+
+        if (!GlobalFlag.isLoaded()) {
+            GlobalFlag.setLoaded();
+            CrosshairConfig.loadConfiguration(Crosshair.instance);
+        }
         setAlwaysOnTop(true);
         JPanel crosshair = new JPanel();
         crosshair.setBackground(crosshairColor);
-        crosshair.setPreferredSize(crosshairDimension);
-        setLocation(x, y);
+        crosshair.setPreferredSize(new Dimension(crosshairSizesMap.get(getCrosshairSizeType())));
+        setLocation((int) (SCREEN_WIDTH / 2 - getCrosshairSizesMap().get(crosshairSizeType).getWidth() / 2), (int) (SCREEN_HEIGHT / 2 - getCrosshairSizesMap().get(crosshairSizeType).getWidth() / 2));
+        System.out.println(getLocation());
+        System.out.println(getCrosshairSizesMap().get(crosshairSizeType).getWidth());
+        System.out.println(crosshair.getPreferredSize());
         add(crosshair);
         packAndDisplay();
         hideCursor();
     }
 
+    public static void removeAllCroshairs(){
+        for (Crosshair crosshair : crosshairList) {
+            crosshair.dispose();
+        }
+    }
+
+    public static Map<Integer, Dimension> getCrosshairSizesMap() {
+        return crosshairSizesMap;
+    }
+
+    public static void setCrosshairSizesMap(Map<Integer, Dimension> crosshairSizesMap) {
+        Crosshair.crosshairSizesMap = crosshairSizesMap;
+    }
+
     public static int crosshairY() {
-        return SCREEN_HEIGHT / 2 - crosshairSize;
+        return SCREEN_HEIGHT / 2 - crosshairSizeType;
     }
 
     public static int crosshairX() {
-        return SCREEN_WIDTH / 2 - crosshairSize;
+        return SCREEN_WIDTH / 2 - crosshairSizeType;
     }
 
     private void packAndDisplay() {
@@ -55,12 +109,12 @@ public class Crosshair extends JWindow {
 
     }
 
-    public static int getCrosshairSize() {
-        return crosshairSize;
+    public static int getCrosshairSizeType() {
+        return crosshairSizeType;
     }
 
-    public static void setCrosshairSize(int crosshairSize) {
-        Crosshair.crosshairSize = crosshairSize;
+    public static void setCrosshairSizeType(int crosshairSizeType) {
+        Crosshair.crosshairSizeType = crosshairSizeType;
         updateCrosshair();
     }
 
@@ -77,7 +131,6 @@ public class Crosshair extends JWindow {
         instance.dispose();
         updateX();
         updateY();
-        new Crosshair();
     }
 
     public static void setX(int x) {
@@ -89,10 +142,18 @@ public class Crosshair extends JWindow {
     }
 
     private static void updateX() {
-        x = SCREEN_WIDTH / 2 - crosshairSize / 2;
+        x = SCREEN_WIDTH / 2 - crosshairSizeType / 2;
     }
 
     private static void updateY() {
-        y = SCREEN_HEIGHT / 2 - crosshairSize / 2;
+        y = SCREEN_HEIGHT / 2 - crosshairSizeType / 2;
+    }
+
+    public static Crosshair getInstance() {
+        return instance;
+    }
+
+    public static void setInstance(Crosshair instance) {
+        Crosshair.instance = instance;
     }
 }
