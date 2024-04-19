@@ -8,6 +8,7 @@ import java.util.Properties;
 
 public abstract class Finals {
     private static String version;
+
     static {
         Properties properties = new Properties();
         try {
@@ -16,10 +17,10 @@ public abstract class Finals {
                 properties.load(inputStream);
                 version = properties.getProperty("version");
             } else {
-                System.err.println("Failes to load `.properties` file!");
+                System.err.println("Failed to load `.properties` file!");
             }
         } catch (IOException e) {
-            System.err.println("Erroe loading `.properties` file: " + e.getMessage());
+            System.err.println("Error loading `.properties` file: " + e.getMessage());
         }
     }
 

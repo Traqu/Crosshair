@@ -1,4 +1,5 @@
 import Configuration.CrosshairConfig;
+import CrosshairCustomization.CustomCrosshairConfigurationTool;
 import GUI.ApplicationInterface;
 
 import javax.swing.*;
