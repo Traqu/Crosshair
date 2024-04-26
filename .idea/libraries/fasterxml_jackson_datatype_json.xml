@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="fasterxml.jackson.datatype.json" type="repository">
+    <properties maven-id="com.fasterxml.jackson.datatype:jackson-datatype-json-org:2.13.2" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jackson-datatype-json-org-2.13.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/json-20190722.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-core-2.13.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-databind-2.13.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-annotations-2.13.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
